@@ -1,0 +1,99 @@
+<md-card class="md-whiteframe-1dp md-padding">
+    <form role="form" name="thisForm" id="thisForm" novalidate class="md-padding" layout="column">
+        <div layout="row">
+            <md-input-container flex="50">
+                <label>Creation Title *</label>
+                <input required ng-model="news.title" maxlength="200">
+            </md-input-container>
+            <span flex="5"></span>
+            <md-input-container flex="50">
+                <label>Creator *</label>
+                <input required ng-model="news.creator" maxlength="200">
+            </md-input-container>
+        </div>
+
+        <div layout="row">
+            <md-input-container flex="30">
+                <label>File Extension *</label>
+                <md-select required ng-model="news.type">
+                    <md-option ng-repeat="t in type_array" value="{{t}}">{{t}}</md-option>
+                </md-select>
+            </md-input-container>
+            <span flex="5"></span>
+            <md-input-container flex="30">
+                <label>Upload Date *</label>
+                <input required ng-model="news_date" type="text" maxlength="100" readonly ng-click="showDatePicker($event)">
+                <md-icon ng-style="{color: iconColor}" style="cursor: pointer;" ng-click="showDatePicker($event)">event</md-icon>
+            </md-input-container>
+        </div>
+
+        <fieldset class="standard margin-input-container" layout="row">
+            <legend>Category *</legend>
+            <md-input-container flex="100">
+                <div layout="row" layout-wrap>
+                    <div name="topic" flex="50" ng-repeat="i in topic_data">
+                        <md-checkbox ng-checked="isTopicSelected(i, topic_selected)"
+                                     ng-click="toggleTopic(i, topic_selected)" aria-label="i">
+                            <span ng-if="!isTopicSelected(i, topic_selected)">{{i.name}}</span>
+                            <span ng-if="isTopicSelected(i, topic_selected)"><b>{{i.name}}</b></span>
+                        </md-checkbox>
+                    </div>
+                </div>
+                <div ng-if="!topic_valid" class="red-alert">At least one category required</div>
+            </md-input-container>
+        </fieldset>
+
+        <br>
+        <legend>Description *</legend>
+        <div text-angular="text-angular" required name="content" ng-model="news.content"></div>
+
+        <br>
+        <fieldset class="standard margin-input-container md-padding">
+            <legend>Thumbnail *</legend>
+            <div layout="row" layout-align="center center">
+                <input class="padding-top-bottom" type="file" name="image"
+                       onchange="angular.element(this).scope().onFileSelect(this.files)" flex/>
+                <md-button class="md-icon-button" ng-click="viewImage($event, 'uploads/news/'+news.image)"
+                           ng-if="!isNewEntry()">
+                </md-button>
+            </div>
+            <div ng-if="!image.valid" class="red-alert">JPG or PNG only</div>
+        </fieldset>
+<br>
+ <div layout="row">
+            <md-input-container flex="80" >
+                <label>Download Link *</label>
+                <input name="url" required ng-model="news.url">
+                <p class="hint-input">
+                    ~ It is best to <a href="/storage/" target="_blank">Upload Files Here</a><br>
+                    ~ If you are uploading a seed, type the word "seed" instead of a URL.<br>
+                    ~ If you leave this blank, no download button will appear.
+                </p>
+            </md-input-container>
+        </div>
+        <br>
+        <md-divider></md-divider>
+        <br>
+        <md-checkbox ng-model="news.featured" ng-true-value="1" ng-false-value="0">Featured</md-checkbox>
+        <md-checkbox ng-model="news.draft" ng-true-value="1" ng-false-value="0"
+                     ng-change="draftChanged(news.draft)">Save As draft
+        </md-checkbox>
+        <md-checkbox ng-disabled="news.draft==1" ng-model="send_notif">Send Notification to users</md-checkbox>
+        <p class="hint">
+            When you check <i>Featured</i> this content will display above all other content.<br>
+            When you check <i>Save As draft</i> the content will not display on the app until released.<br/>
+        <br><br>
+        <em> (*) required field</em>
+        <br><br><br>
+        <div layout="row">
+            <span flex></span>
+            <md-button ng-if="!submit_loading" class="md-warn" ng-click="cancel()"> CANCEL</md-button>
+            <md-button ng-if="!submit_loading" ng-disabled="!isReadySubmit() || thisForm.$invalid"
+                       ng-click="submit(news)" class="md-raised"> {{button_text}}
+            </md-button>
+            <md-progress-circular ng-if="submit_loading" class="md-primary" md-mode="indeterminate"
+                                  md-diameter="30px"></md-progress-circular>
+        </div>
+    </form>
+</md-card>
+

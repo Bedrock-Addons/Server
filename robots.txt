@@ -1,0 +1,57 @@
+User-agent: Googlebot
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: Baiduspider
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: MSNBot
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: Baiduspider-image
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: YoudaoBot
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: Sogou web spider
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: Sogou inst spider
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: Sogou spider2
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: ChinasoSpider
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: yisouspider
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: EasouSpider
+Disallow: /
+Disallow: /uploads/
+Disallow: /storage/
+
+User-agent: *
+Disallow: /

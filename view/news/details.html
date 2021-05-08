@@ -1,0 +1,89 @@
+<md-dialog layout="column" flex="100" aria-label="dialog place">
+    <md-toolbar-tools role="toolbar" class="layout-wrap">
+            <div class="md-toolbar-tools">
+                <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" ng-click="cancel()" aria-label="arrow_back">
+                    <md-icon class="ng-scope ng-isolate-scope material-icons">arrow_back</md-icon>
+                </button>
+                <span flex="" class="flex"></span>
+                    <h4 style="margin-left:10px;margin-right:10px;" class="md-title ng-binding">Test</h4> 
+		<span flex="" class="flex"></span>
+                <button class="md-icon-button md-button md-ink-ripple" type="button" ng-transclude="" ng-click="onWishlistClicked(product)">
+                    <!-- ngIf: wish_list -->
+                    <!-- ngIf: !wish_list --><md-icon ng-if="!wish_list" class="ng-scope ng-isolate-scope material-icons">bookmark_border</md-icon><!-- end ngIf: !wish_list -->
+                </button>
+            </div>
+        </md-toolbar>
+
+    <md-divider></md-divider>
+	<div layout="row" layout-align="center start" ng-if="!loading">
+	    <div layout="column" flex-xs="100" flex-gt-xs="50" flex-sm="70" flex-gt-sm="50" flex="100">
+
+		<md-dialog-content class="autoScroll" style="max-width:100%;">
+		<div class="md-dialog-content">
+		    <div style="margin-bottom: 5px;">
+		        <green-tag>{{news.type}}</green-tag> 
+		        <span ng-repeat="c in topic" style="margin-top: 6px;">
+			    <blue-tag>{{c.name}}</blue-tag>
+		        </span>
+		    </div>
+		    <img class="md-center" style="margin: auto; max-width: 100%; border-radius: 7px;" ng-src="{{image_url}}" flex>
+			<h4 style="margin-top:5px;" class="md-title ng-binding">{{news.title}}</h4>
+
+		    <md-divider class="margin-divider"></md-divider>
+		    
+		    <div layout="row">
+			<item flex="25">Date</item>
+			<item flex="5"> :</item>
+			<item>{{news.date | date:'dd MMMM yyyy'}} at {{news.date | date:'hh.mm'}}</item>
+		    </div>
+
+		    <md-divider class="margin-divider"></md-divider>
+		    <div layout="row">
+			<item flex="25">Downloads</item>
+			<item flex="5"> :</item>
+			<item>{{news.total_view}}</item>
+		    </div>
+		    <div layout="row">
+			<item flex="25">Comments</item>
+			<item flex="5"> :</item>
+			<item>{{news.total_comment}}</item>
+		    </div>
+		    <div layout="row">
+			<item flex="25">Created At</item>
+			<item flex="5"> :</item>
+			<item>{{news.created_at | date:'hh.mm, dd MMMM yyyy'}}</item>
+		    </div>
+		    <div layout="row">
+			<item flex="25">Last Update</item>
+			<item flex="5"> :</item>
+			<item>{{news.last_update | date:'hh.mm, dd MMMM yyyy'}}</item>
+		    </div>
+
+		    <div layout="row">
+			<item flex="25">Download Link</item>
+			<item flex="5"> :</item>
+			<item><a ng-if="news.url != ''" href="{{news.url}}">File URL</a></item>
+		    </div>
+
+		    <div ng-if="news.type=='GALLERY'">
+			<md-divider class="margin-divider"></md-divider>
+			<div layout="row">
+			    <p flex="25">Gallery</p> <p flex="5"> : </p>
+			</div>
+			<section class="card">
+			    <div class="card--content" ng-repeat="g in gallery">
+				<img src="uploads/news/{{g.name}}">
+			    </div>
+			</section>
+		    </div>
+
+		    <md-divider class="margin-divider"></md-divider>
+		    <div layout="row">
+			<item flex="25">Description</item> <item flex="5"> : </item>
+		    </div>
+		    <div style="margin: auto; max-width: 100%;" ng-bind-html="news.content"></div>
+		</div>
+		</md-dialog-content>
+	    </div>
+	</div>
+</md-dialog>

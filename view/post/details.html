@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>Markeet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/png" href="../../lib/img/favicon.png"/>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var element = document.getElementById("preloader");
+            element.parentNode.removeChild(element);
+        });
+    </script>
+
+</head>
+
+<body>
+
+<div id="preloader"></div>
+
+<html lang="en" ng-app="App" ng-controller="RootCtrl as ctl" layout-fill>
+
+<head>
+    <link rel="stylesheet" href="../../lib/css/angular-material.min.css">
+    <link rel="stylesheet" href="../../lib/css/styles.css">
+    <link rel="stylesheet" href="../../lib/fonts/material.css"/>
+</head>
+
+<body layout="row" ng-cloak ng-controller="DetailsNewsControllerDialog">
+
+<div layout="column" class="relative" layout-fill>
+
+	<md-toolbar role="toolbar" class="md-whiteframe-2dp layout-wrap">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" ng-click="back()">
+                    <md-icon>arrow_back</md-icon>
+                </md-button>
+                <span flex></span>
+                    <h4 style="color:#FFFFFF;margin-left:10px;margin-right:10px;">{{news.title}}</h4> 
+		<span flex></span>
+                <md-button class="md-icon-button" ng-click="onWishlistClicked(product)">
+                    <md-icon ng-if="wish_list">bookmark</md-icon>
+                    <md-icon ng-if="!wish_list">bookmark_border</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+    <md-content id="main-content" style="background-color:#efefef;" class="fill-parent">
+
+        <div layout="row" layout-align="center start" ng-if="!loading">
+            <div layout="column" flex-xs="100" flex-gt-xs="50" flex-sm="70" flex-gt-sm="50" flex="100" class="bg-white">
+                <div>
+                    <md-grid-list md-cols="1" md-row-height="7:4">
+                        <md-grid-tile>
+                            <md-whiteframe layout-fill layout="row">
+                                <img ng-src="{{img_prod_path+selected_image}}" class="md-card-image bg-dark center-crop" flex>
+
+                                <md-button class="absolute-left overlay md-padding bt-flat-t" ng-click="changeImage('PREV')" ng-if="images.length > 1">
+                                    <md-icon class="ic-white">navigate_before</md-icon>
+                                </md-button>
+                                <md-button class="absolute-right overlay md-padding bt-flat-t" ng-click="changeImage('NEXT')" ng-if="images.length > 1">
+                                    <md-icon class="ic-white">navigate_next</md-icon>
+                                </md-button>
+
+                                <span layout="row" class="absolute-bottom md-padding fill-parent-h" layout-align="center center">
+                                    <div ng-repeat="n in images" ng-if="images.length > 1">
+                                        <div ng-if="$index == images_idx" class="dot-green"></div>
+                                        <div ng-if="$index != images_idx" class="dot-grey"></div>
+                                    </div>
+                                </span>
+                            </md-whiteframe>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+
+                <div layout="row" class="md-padding" layout-align="center start">
+                    <div layout="column">
+                        <div layout="column" ng-if="product.price_discount == 0">
+                            <span class="md-title ng-binding"><b>{{news.title}}</b> </span>
+                            <med-divider></med-divider>
+                        </div>
+                        <div layout="column" ng-if="product.price_discount > 0">
+                            <span class="md-headline price"><b>{{getPrice(product.price_discount, info.currency)}}</b> </span>
+                            <med-divider></med-divider>
+                            <span class="md-caption price-disc">{{getPrice(product.price, info.currency)}}</span>
+                            <med-divider></med-divider>
+                        </div>
+                        <div layout="row">
+                            <span flex><product-date>{{product.last_update | date:'MMMM dd, yyyy'}}</product-date></span>
+                        </div>
+                    </div>
+                    <span flex></span>
+                    <status ng-if="product.status == 'READY STOCK'">READY STOCK</status>
+                    <status ng-if="product.status == 'OUT OF STOCK'">OUT OF STOCK</status>
+                </div>
+                <md-divider></md-divider>
+                <div layout="row" class="md-padding layout-fill ng-binding">
+                    <span layout-fill ng-bind-html="product.description | trustAsHtml" class="layout-fill ng-binding"></span>
+                </div>
+                <md-divider></md-divider>
+
+		<!--Categories-->
+                <h3 class="md-margin md-title">Categories</h3>
+                <div>
+                    <md-grid-list md-cols="1" md-row-height="15:4" md-gutter="8px" class="md-margin">
+                        <md-grid-tile ng-repeat="c in product.categories" ng-click="detailsCategory(c)">
+                            <md-card class="card-radius-4" layout-fill layout="row" md-ink-ripple
+                                     style="cursor:pointer;">
+
+                                <div ng-style="{background: c.color}" class="md-padding md-card-image"
+                                     style="width: 23%;">
+                                    <img ng-if="TINT_ICON" ng-src="{{img_cat_path+c.icon}}" class="img-category fit tint-white">
+                                    <img ng-if="!TINT_ICON" ng-src="{{img_cat_path+c.icon}}" class="img-category fit">
+                                </div>
+
+                                <md-card-content layout="column" style="width: 73%; background: #f7f7f7;">
+                                    <span class="md-body-2 overflow">{{c.name}}</span>
+                                    <span class="md-caption line-2">{{c.brief}}</span>
+                                </md-card-content>
+                            </md-card>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </div>
+
+                <br>
+            </div>
+
+        </div>
+
+        <div layout="row" class="fill-parent" ng-if="loading" layout-align="center center">
+            <div layout="column" layout-align="center center">
+                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                <br>
+                <span class="md-title" style="color:#8B8B8C;">Loading</span>
+            </div>
+        </div>
+    </md-content>
+
+    <div layout="row" class="add-to-cart" layout-align="center">
+        <div layout="column" flex-xs="100" flex-gt-xs="50" flex-sm="70" flex-gt-sm="50" flex="100"
+             ng-style="{background: cart_color}">
+            <md-button class="bt-flat" ng-click="onCartClicked(product)">
+                <md-icon class="ic-white">shopping_cart</md-icon><span>&nbsp;&nbsp;</span>
+                <span class="text-white md-body-2">{{bt_cart_txt}}</span>
+            </md-button>
+        </div>
+        <div style="width: 18px;" hide-xs></div>
+    </div>
+</div>
+
+<!-- angular dependencies -->
+<script src="../../lib/js/angular-library.js"></script>
+
+<!-- angular global controllers -->
+<script src="../../controller/tools/app.js"></script>
+<script src="../../controller/data/database.js"></script>
+<script src="../../controller/config.js"></script>
+<script src="../../controller/tools/services.js"></script>
+<script src="../../controller/root.js"></script>
+
+</body>
+</html>
+
+<!-- angular current controllers -->
+<script src="../../controller/news/list.js"></script>
+
+</body>
+</html>
