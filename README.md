@@ -1,3 +1,5 @@
+# NOTICE: This code is unmaintained and has known PHP vulnerabilities.
+
 # Bedrock-Addons-Server
 This is the server-side data management software for the Bedrock Addons application.
 
